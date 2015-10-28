@@ -38,6 +38,8 @@ int main(int argv, char** argc)
 	Matrix r = b + ((-1)* A*x);
 	Matrix d = r;
 
+	double rnorm = 0;
+
 	do
 	{
 		Matrix z = A*d;
@@ -46,10 +48,11 @@ int main(int argv, char** argc)
 		x = x + alpha * d;
 		double alpha_minus = (-1)* alpha;
 		r = r + alpha_minus *z;
-
-		double beta = (r * r).FirstElm() / rskalar;
+		double rnorm =(r * r).FirstElm(); 
+		double beta =  rnorm/ rskalar;
 		d = r + beta * d;
-	}while(r.norm() < tol);
+
+	}while(rnorm < tol);
 	
 	return 0;
 }
