@@ -133,32 +133,37 @@ void RungeKutta::step(double tstep, double *y, double h)
 	double k3[neq];
 	double k4[neq];
 
+	double ylast[neq];
+
 // k1	
 //	memcpy(k1, y, neq);
 	for(int i = 0; i < neq; i++)
+	{
 		k1[i] = y[i];
+		ylast[i] = y[i];
+	}
 	this->func(neq, tstep, k1);
 	skalar(neq, h, k1);	
 //k2 
 	for(int i = 0; i < neq; i++)
-		k2[i] = y[i] + 0.5 * k1[i];  
+		k2[i] = ylast[i] + 0.5 * k1[i];  
 
 	this->func(neq, tstep + 0.5 * h, k2);
 	skalar(neq, h, k2);
 //k3
 	for(int i = 0; i < neq; i++)
-		k3[i] = y[i] + 0.5 * k2[i];
+		k3[i] = ylast[i] + 0.5 * k2[i];
 	this->func(neq, tstep + 0.5 * h, k3);
 	skalar(neq, h, k3);
 
 //k4
 	for(int i = 0; i < neq; i++)
-		k4[i] = y[i] + k3[i];
+		k4[i] = ylast[i] + k3[i];
 
 	this->func(neq, tstep + h, k4);
 	skalar(neq, h, k4);
 
 	for(int i = 0; i < neq; i++)
-		y[i] = y[i] + 1.0/6.0*(k1[i] + 2.0 * k2[i] + 2.0*k3[i] + k4[i]);
+		y[i] = ylast[i] + 1.0/6.0*(k1[i] + 2.0 * k2[i] + 2.0*k3[i] + k4[i]);
 
 }
