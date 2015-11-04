@@ -2,10 +2,24 @@
 #define __MATRIX__
 
 #include <vector>
+#include <exception>
 
 struct _dim{
 	int m;
 	int n;
+};
+
+struct MatrixException : public std::exception
+{
+private:
+	char * error_message; 
+public:
+	MatrixException(char* error_message);
+
+	const char * what () const throw ()
+  	{
+    	return error_message;
+  	}
 };
 
 
@@ -13,13 +27,14 @@ class Matrix
 {
 	//void internal_transpose();
 public:
-	friend Matrix operator*(Matrix other1, const Matrix& other2);
-	friend Matrix operator+(Matrix other1, const Matrix& other2);
+	friend Matrix operator*(Matrix& other1, Matrix& other2);
+	friend Matrix operator+(Matrix& other1, Matrix& other2);
+	friend Matrix operator-(Matrix& other1, Matrix other2);
 	friend Matrix operator*(Matrix lhs, double alpha);
 	friend Matrix operator*(double alpha, Matrix lhs);
 protected:
-	static Matrix multi(Matrix other1, const Matrix& other2);
-	static Matrix add(Matrix other1, const Matrix& other2);
+	static void multi(int lhsm, int rhsm, Matrix& res, Matrix& lhs, Matrix& rhsT, bool nosparse = true);
+	static void add(int m, int n, Matrix& lhs, Matrix& rhs, Matrix& res, bool nosparse = true);
 public:
 	Matrix& operator=(const Matrix& other);
 protected:
@@ -36,23 +51,22 @@ protected:
 //	double *val;
 
 private:
-	void reserve(int nnz);
 	void shrink_to_fit();
 protected:
-	void sort();
+	virtual std::vector<int> getSubCol(int start, int len);
+	std::vector<double>getSubVal(int start, int len);
 	void swap(const Matrix& other);
 	void multiSkalar(int alpha);
 public:
+	virtual void sort();
 	void assign(int m, int n, int nnz, int*row, int* col, double *val);
-	struct _dim size() const;
-	void getcsr(int* dsp, int* cnt) const;
-	void addValue(int irow, int icol, double dval);
+	virtual struct _dim size() const;
+	virtual void getcsr(int* dsp, int* cnt) const;
+	virtual void addValue(int irow, int icol, double dval);
 	int getNNZ() const;
 	int getCapacity() const;
-	void getSparse();
-
-	double norm();
-
+	virtual void getSparse();
+	void reserve(int nnz);
 	double FirstElm()
 	{
 		return val[0];
@@ -62,7 +76,8 @@ private:
 	static void bubblesort(int first, int last, std::vector<int>* row, 
 		std::vector<int>* col, std::vector<double>* val);
 public:
-	static void Transpose(const Matrix& source, Matrix& dist);
+	//static void Transpose(const Matrix& source, Matrix& dist);
+	virtual Matrix Transpose() const;
 public:
 	Matrix();
 	Matrix(int m, int n);

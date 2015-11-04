@@ -18,8 +18,12 @@ public:
 	~RowVector();
 	RowVector(int len, double *val);
 	RowVector(Matrix m);
-private:
-	void initvec(int len, double* val);
+protected:
+	std::vector<int> getSubCol(int start, int len);
+	void swap(const Matrix& other);
+public:
+	void getcsr(int* dsp, int* cnt) const;
+	//ColVector Transpose();
 };
 
 #endif

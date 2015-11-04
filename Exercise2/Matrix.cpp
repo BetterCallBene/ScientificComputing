@@ -4,9 +4,15 @@
 #include <vector>
 #include "Matrix.h"
 #include "helper.h"
+#include <string.h>
 #include <cmath>
 
 using namespace std;
+
+MatrixException::MatrixException(char * error_message)
+{
+	strcpy(error_message, this->error_message);
+}
 
 
 Matrix::Matrix() 
@@ -79,7 +85,7 @@ void Matrix::addValue(int irow, int icol, double dval)
 
 int Matrix::getNNZ() const
 {
-	return this->row.size();
+	return this->val.size();
 }
 
 void Matrix::getSparse()
@@ -182,30 +188,18 @@ void Matrix::getcsr(int* dsp, int* cnt) const
 
 }
 
-double Matrix::norm()
-{
-		int nnz = getNNZ();
-
-		double res = 0;
-
-		for(int i = 0; i <nnz; i++)
-		{
-			res = res + pow(val[i], 2.0);
-		}
-		return sqrt(res);
-}
 
 int Matrix::getCapacity() const
 {
 	return row.capacity();
 }
-void Matrix::Transpose(const Matrix& source, Matrix& dist)
+Matrix Matrix::Transpose() const
 {
-	//dist = source;
-	int nnz = source.getNNZ();
+	Matrix dist;
+	int nnz = getNNZ();
 
-	dist.Dim.n = source.Dim.m;
-	dist.Dim.m = source.Dim.n;
+	dist.Dim.n = Dim.m;
+	dist.Dim.m = Dim.n;
 
 	dist.reserve(nnz);
 
@@ -214,12 +208,13 @@ void Matrix::Transpose(const Matrix& source, Matrix& dist)
 		//dist.row[i] = source.col[i];
 		//dist.col[i] = source.row[i];
 		//dist.val[i] = source.val[i];
-		dist.row.push_back(source.col[i]);
-		dist.col.push_back(source.row[i]);
-		dist.val.push_back(source.val[i]);
+		dist.row.push_back(col[i]);
+		dist.col.push_back(row[i]);
+		dist.val.push_back(val[i]);
 	}
 
 	dist.sort();
+	return dist;
 }
 
 void Matrix::multiSkalar(int alpha)
@@ -231,14 +226,9 @@ void Matrix::multiSkalar(int alpha)
 	}
 }
 
-Matrix Matrix::multi(Matrix lhs, const Matrix& rhs)
+void Matrix::multi(int lhsm, int rhsm, Matrix& res, Matrix& lhs, Matrix& rhsT, bool nosparse)
 {
-	Matrix rhsT;
-	Matrix::Transpose(rhs, rhsT);
-
-	int lhsm = lhs.Dim.m;
-	int rhsm = rhsT.Dim.m;
-
+	
 	int dspLhs[lhsm];
 	int cntLhs[lhsm];
 
@@ -247,85 +237,101 @@ Matrix Matrix::multi(Matrix lhs, const Matrix& rhs)
 
 	double eps = 1e-20;
 
-
-	lhs.getcsr(dspLhs, cntLhs);
+	
 	rhsT.getcsr(dspRhs, cntRhs);
-	Matrix res(lhsm, rhsm);
-	res.reserve(lhsm * rhsm);
-
+	lhs.getcsr(dspLhs, cntLhs);
+	
 	int ind = 0;
 
 
-	for (int i = 0; i < lhsm; i++)
+	for (int i = 0; i < rhsm; i++)
 	{
 		int TmpdspRhs = dspRhs[i];
 		int TmpcntRhs = cntRhs[i];
 
 		if (TmpcntRhs == 0)
 			continue;
-
+/*
 		vector<int>::iterator firstColRhs 
 			= rhsT.col.begin() + TmpdspRhs;
 		vector<int>::iterator lastColRhs 
 			= rhsT.col.begin() + TmpdspRhs + TmpcntRhs;
 		vector<int> curColRhs(firstColRhs, lastColRhs);
+		*/
+		vector<int> curColRhs = rhsT.getSubCol(TmpdspRhs, TmpcntRhs);
+	/*
 		vector<double>::iterator firstValRhs 
 			= rhsT.val.begin() + TmpdspRhs;
 		vector<double>::iterator lastValRhs 
 			= rhsT.val.begin() + TmpdspRhs + TmpcntRhs;
 		vector<double> curValRhs(firstValRhs, lastValRhs);
-		
+		*/
 
-		for(int j = 0; j < rhsm; j++)
+		std::vector<double> curValRhs = rhsT.getSubVal(TmpdspRhs, TmpcntRhs);
+
+		for(int j = 0; j < lhsm; j++)
 		{
 			int TmpdspLhs = dspLhs[j];
 			int TmpcntLhs = cntLhs[j];
 
 			if (TmpcntLhs == 0)
 				continue;
-
+/*
 			vector<int>::iterator firstColLhs = lhs.col.begin() + TmpdspLhs;
 			vector<int>::iterator lastColLhs = lhs.col.begin() + TmpdspLhs + TmpcntLhs;
 			vector<int> curRowLhs(firstColLhs, lastColLhs);
-
+*/
+			vector<int> curRowLhs = lhs.getSubCol(TmpdspLhs, TmpcntLhs);
+/*			
 			vector<double>::iterator firstValLhs = lhs.val.begin() + TmpdspLhs;
 			vector<double>::iterator lastValLhs = lhs.val.begin() + TmpdspLhs + TmpcntLhs;
 			vector<double> curValLhs(firstValLhs, lastValLhs);
-
+*/
+			vector<double>curValLhs = lhs.getSubVal(TmpdspLhs, TmpcntLhs);
 			double erg = skalar_product(TmpcntLhs, curRowLhs.data(), curValLhs.data(), 
 				TmpcntRhs, curColRhs.data(), curValRhs.data());
 
-			if(abs(erg) > eps)
-			{
+			if(nosparse || abs(erg) > eps)
 				res.addValue(j, i, erg);
-			}	
+				
 		}
 	}
 	res.sort();
-	return res;
 }
 
-Matrix Matrix::add(Matrix lhs, const Matrix& rhs)
+std::vector<int> Matrix::getSubCol(int start, int len)
 {
-	Matrix rhsTmp = rhs;
-	int lhsm = lhs.Dim.m;
-	int lhsn = lhs.Dim.n;
-	int rhsm = rhs.Dim.m;
+	vector<int>::iterator first = col.begin() + start;
+	vector<int>::iterator last = col.begin() + start + len;
+	vector<int> items(first, last);
 
+	return items;
+}
+std::vector<double>Matrix::getSubVal(int start, int len)
+{
+	vector<double>::iterator first = val.begin() + start;
+	vector<double>::iterator last = val.begin() + start + len;
+	vector<double> items(first, last);
 
-	int dspLhs[lhsm];
-	int cntLhs[lhsm];
+	return items;
 
-	int dspRhs[rhsm];
-	int cntRhs[rhsm];
+}
 
+void Matrix::add(int m, int n, Matrix& lhs, Matrix& rhs, Matrix& res, bool nosparse)
+{
+	int dspLhs[m];
+	int cntLhs[m];
+
+	int dspRhs[m];
+	int cntRhs[m];
+
+	double eps = 1e-20;
+
+	
 	lhs.getcsr(dspLhs, cntLhs);
 	rhs.getcsr(dspRhs, cntRhs);
 
-	Matrix res(lhsm, lhsn);
-	res.reserve(lhsm * lhsn);
-
-	for(int i = 0; i < lhsm; i++)
+	for(int i = 0; i < m; i++)
 	{
 		int TmpdspRhs = dspRhs[i];
 		int TmpcntRhs = cntRhs[i];
@@ -333,36 +339,24 @@ Matrix Matrix::add(Matrix lhs, const Matrix& rhs)
 		int TmpdspLhs = dspLhs[i];
 		int TmpcntLhs = cntLhs[i];
 
-		vector<int>::iterator firstColLhs = lhs.col.begin() + TmpdspLhs;
-		vector<int>::iterator lastColLhs = lhs.col.begin() + TmpdspLhs + TmpcntLhs;
-		vector<int> curRowLhs(firstColLhs, lastColLhs);
+		vector<int> curRowLhs = lhs.getSubCol(TmpdspLhs, TmpcntLhs);
+		vector<double> curValLhs = lhs.getSubVal(TmpdspLhs, TmpcntLhs);
+		vector<int> curColRhs = rhs.getSubCol(TmpdspRhs, TmpcntRhs);
+		vector<double> curValRhs = rhs.getSubVal(TmpdspRhs, TmpcntRhs);
 
-		vector<double>::iterator firstValLhs = lhs.val.begin() + TmpdspLhs;
-		vector<double>::iterator lastValLhs = lhs.val.begin() + TmpdspLhs + TmpcntLhs;
-		vector<double> curValLhs(firstValLhs, lastValLhs);
+		int colRes[n];
+		double valRes[n];
 
-		vector<int>::iterator firstColRhs = rhsTmp.col.begin() + TmpdspRhs;
-		vector<int>::iterator lastColRhs = rhsTmp.col.begin() + TmpdspRhs + TmpcntRhs;
-		vector<int> curColRhs(firstColRhs, lastColRhs);
-
-		vector<double>::iterator firstValRhs = rhsTmp.val.begin() + TmpdspRhs;
-		vector<double>::iterator lastValRhs = rhsTmp.val.begin() + TmpdspRhs + TmpcntRhs;
-		vector<double> curValRhs(firstValRhs, lastValRhs);
-
-		int colRes[lhsn];
-		double valRes[lhsn];
-
-		int nnz =  addition(lhsn, TmpcntLhs, curRowLhs.data(), curValLhs.data(), 
+		int nnz =  addition(n, TmpcntLhs, curRowLhs.data(), curValLhs.data(), 
 			TmpcntRhs, curColRhs.data(), curValRhs.data(), colRes, valRes );
-	/*
-		addition (int len, int nnz1, int* col1, double* val1, 
-	int nnz2, int* col2, double* val2, int* colres, double* valres )
-	*/
+	
 		for(int j = 0; j < nnz; j++)
-			res.addValue(i, colRes[j], valRes[j]);
-
+		{
+			if(nosparse || valRes[j] > eps)
+				res.addValue(i, colRes[j], valRes[j]);
+		}
 	}
-	return res;
+	res.shrink_to_fit();
 }
 
 Matrix& Matrix::operator=(const Matrix& other)
@@ -383,15 +377,49 @@ Matrix operator*(double alpha, Matrix lhs)
 	return lhs;
 }
 
-
-Matrix operator+(Matrix lhs, const Matrix& rhs)
-{	
-	return Matrix::add(lhs, rhs);
+Matrix operator-(Matrix& lhs, Matrix rhs)
+{
+	double alpha = -1;
+	rhs.multiSkalar(alpha);
+	return lhs + rhs;
 }
 
-Matrix operator*(Matrix lhs, const Matrix& rhs)
+Matrix operator+(Matrix& lhs, Matrix& rhs)
+{	
+	_dim DimLhs = lhs.size();
+	_dim DimRhs = rhs.size();
+	
+	if(DimLhs.m != DimRhs.m || DimLhs.n != DimRhs.n)
+	{
+		char error_message[100] = {""};
+		sprintf(error_message, "Wrong Dimension: Left (%d, %d), Right (%d, %d)", DimLhs.m, DimLhs.n, DimRhs.m, DimRhs.n);
+		throw MatrixException(error_message);
+	}
+	Matrix res(DimLhs.m, DimLhs.n);
+	res.reserve(DimLhs.m * DimLhs.n);
+
+	Matrix::add(DimLhs.m, DimLhs.n, lhs, rhs, res, false);
+	//return Matrix::add(lhs, rhs);
+	return res;
+}
+
+Matrix operator*(Matrix& lhs, Matrix& rhs)
 {
-	return Matrix::multi(lhs, rhs);
+	//return Matrix::multi(lhs, rhs);
+
+	if(lhs.Dim.n != rhs.Dim.m)
+	{
+		char error_message[100] = {""};
+		sprintf(error_message, "Wrong Dimension: Left (%d, %d), Right (%d, %d)", lhs.Dim.m, lhs.Dim.n, rhs.Dim.m, rhs.Dim.n);
+		throw MatrixException(error_message);
+	}
+	Matrix rhsT = rhs.Transpose();
+	int lhsm = lhs.Dim.m;
+	int rhsm = rhsT.Dim.m;
+	Matrix res(lhsm, rhsm);
+	res.reserve(lhsm *rhsm);
+	Matrix::multi(lhsm, rhsm, res, lhs, rhsT, false);
+	return res;
 }
 
 
