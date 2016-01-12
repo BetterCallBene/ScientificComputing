@@ -277,7 +277,7 @@ int main( int arc , char* argv[] )
 
     // calculate the Lyapunov exponents -- the main loop
     double t = 0.0;
-    while( t < 10000.0 )
+    while( t < 100.0 )
     {
         integrate_adaptive( make_controlled( 1.0e-6 , 1.0e-6 , stepper_type() ) , lorenz_perturbation , x , t , t + 1.0 , 0.1 );
         t += 1.0;
