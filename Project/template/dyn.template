@@ -1,5 +1,5 @@
 
-#include <cmath.h>
+#include <cmath>
 #include "config.hpp"
 #pragma once
 
@@ -39,12 +39,12 @@ class dyn_base
 			${0}$
 		}
 
-		void jacobi(value_type* r, value_type* q, value_type* v, value_type* omega, value_type* u, value_type* pd)
+		void jacobi(value_type* r, value_type* q, value_type* v, value_type* omega, value_type* u, value_type** pd)
 		{
 			${1}$
 		}
 
-		void hesse(value_type* r, value_type* q, value_type* v, value_type* omega, value_type* u, value_type* pdd)
+		void hesse(value_type* r, value_type* q, value_type* v, value_type* omega, value_type* u, value_type*** pdd)
 		{
 			${2}$
 		}
