@@ -1,5 +1,5 @@
-#define BOOST_TEST_MODULE MyTest
-#include <boost/test/unit_test.hpp>
+#define BOOST_TEST_MODULE FirstTest Module1 
+#include <boost/test/included/unit_test.hpp>
 
 int add(int i, int j){return i + j;}
 
