@@ -277,8 +277,8 @@ pd[12][15] = -0.2e1 * kQ * (value_type) u[2] / Iges[2];
 pd[12][16] = 0.2e1 * kQ * (value_type) u[3] / Iges[2];
 
 		}
-/*
-		void hesse(value_type* r, value_type* q, value_type* v, value_type* omega, value_type* u, value_type* pdd)
+
+		void hesse(value_type* r, value_type* q, value_type* v, value_type* omega, value_type* u, value_type*** pdd)
 		{
 			pdd[0][0][0] = 0;
 pdd[0][0][1] = 0;
@@ -4039,5 +4039,5 @@ pdd[12][16][15] = 0;
 pdd[12][16][16] = 2 * kQ / Iges[2];
 
 		}
-*/
+
 };
