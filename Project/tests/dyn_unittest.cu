@@ -11,13 +11,12 @@ int add(int i, int j){return i + j;}
 
 
 using namespace std;
-using namespace boost::lexical_cast;
 using namespace boost::property_tree;
 
 
 double string_to_double(string value)
 {
-	return lexical_cast<double>(value);
+	return boost::lexical_cast<double>(value);
 }
 
 void getInitialValues(value_type* g, value_type* m, value_type* kT, 
@@ -26,11 +25,18 @@ void getInitialValues(value_type* g, value_type* m, value_type* kT,
 {
 	ptree pt;
 	ini_parser::read_ini("rtopt.ini", pt);
-	cout << pt.get<string>("environment.Iges");
+  
+	string strIges =  pt.get<string>("environment.Iges");
+	vector<string> strs;
+        boost::split(strs,strIges,boost::is_any_of("(,"));
+	cout << strs[0];
 }
 
 BOOST_AUTO_TEST_CASE(Constructor)
 {
-	
+	value_type g, m, kT, kQ, d, IM;
+	value_type Iges[3] = {0, 0, 0};
+	g = 0; m = 0; kT = 0; kQ = 0; d = 0; IM = 0;
+	getInitialValues(&g, &m, &kT, &kQ, &d, &IM, Iges);	
 }
 
