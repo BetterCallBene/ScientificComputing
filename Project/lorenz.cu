@@ -51,7 +51,7 @@ struct lorenz_system
         void operator()( T t ) const
         {
             // unpack the parameter we want to vary and the Lorenz variables
-            value_type R = thrust::get< 3 >( t );
+            value_type R = (value_type)thrust::get< 3 >( t );
             value_type x = thrust::get< 0 >( t );
             value_type y = thrust::get< 1 >( t );
             value_type z = thrust::get< 2 >( t );
