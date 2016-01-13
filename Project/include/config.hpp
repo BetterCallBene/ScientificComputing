@@ -1,3 +1,3 @@
 #pragma once
 
-typedef float value_type
+typedef float value_type;
