@@ -1,5 +1,5 @@
 
-#include <cmath.h>
+#include <cmath>
 #include "config.hpp"
 #pragma once
 
@@ -36,22 +36,22 @@ class dyn_base
 	protected:
 		void func(value_type* r, value_type* q, value_type* v, value_type* omega, value_type* u, value_type* rhs)
 		{
-			rhs[0][0] = v[0] - 0.2e1 * v[0] * pow(q[2], 0.2e1) - 0.2e1 * v[0] * pow(q[3], 0.2e1) - 0.2e1 * v[1] * q[0] * q[3] + 0.2e1 * v[1] * q[1] * q[2] + 0.2e1 * v[2] * q[0] * q[2] + 0.2e1 * v[2] * q[1] * q[3];
-rhs[1][0] = 0.2e1 * v[0] * q[0] * q[3] + 0.2e1 * v[0] * q[1] * q[2] + v[1] - 0.2e1 * v[1] * pow(q[1], 0.2e1) - 0.2e1 * v[1] * pow(q[3], 0.2e1) - 0.2e1 * v[2] * q[0] * q[1] + 0.2e1 * v[2] * q[2] * q[3];
-rhs[2][0] = -0.2e1 * v[0] * q[0] * q[2] + 0.2e1 * v[0] * q[1] * q[3] + 0.2e1 * v[1] * q[0] * q[1] + 0.2e1 * v[1] * q[2] * q[3] + v[2] - 0.2e1 * v[2] * pow(q[1], 0.2e1) - 0.2e1 * v[2] * pow(q[2], 0.2e1);
-rhs[3][0] = -0.5e0 * q[1] * omega[0] - 0.5e0 * q[2] * omega[1] - 0.5e0 * q[3] * omega[2] - pow(q[0], 0.3e1) - q[0] * pow(q[1], 0.2e1) - q[0] * pow(q[2], 0.2e1) - q[0] * pow(q[3], 0.2e1) + q[0];
-rhs[4][0] = 0.5e0 * q[0] * omega[0] - 0.5e0 * q[3] * omega[1] + 0.5e0 * q[2] * omega[2] - pow(q[0], 0.2e1) * q[1] - pow(q[1], 0.3e1) - q[1] * pow(q[2], 0.2e1) - q[1] * pow(q[3], 0.2e1) + q[1];
-rhs[5][0] = 0.5e0 * q[3] * omega[0] + 0.5e0 * q[0] * omega[1] - 0.5e0 * q[1] * omega[2] - pow(q[0], 0.2e1) * q[2] - pow(q[1], 0.2e1) * q[2] - pow(q[2], 0.3e1) - q[2] * pow(q[3], 0.2e1) + q[2];
-rhs[6][0] = -0.5e0 * q[2] * omega[0] + 0.5e0 * q[1] * omega[1] + 0.5e0 * q[0] * omega[2] - pow(q[0], 0.2e1) * q[3] - pow(q[1], 0.2e1) * q[3] - pow(q[2], 0.2e1) * q[3] - pow(q[3], 0.3e1) + q[3];
-rhs[7][0] = -omega[1] * v[2] + omega[2] * v[1] + 0.2e1 * g * q[0] * q[2] - 0.2e1 * g * q[1] * q[3];
-rhs[8][0] = omega[0] * v[2] - omega[2] * v[0] - 0.2e1 * g * q[0] * q[1] - 0.2e1 * g * q[2] * q[3];
-rhs[9][0] = (kT * pow(u[0], 0.2e1) + kT * pow(u[1], 0.2e1) + kT * pow(u[2], 0.2e1) + kT * pow(u[3], 0.2e1) - m * omega[0] * v[1] + m * omega[1] * v[0] - m * g + 0.2e1 * m * g * pow(q[1], 0.2e1) + 0.2e1 * m * g * pow(q[2], 0.2e1)) / m;
-rhs[10][0] = -(-d * kT * pow(u[1], 0.2e1) + d * kT * pow(u[3], 0.2e1) + IM * omega[1] * u[0] - IM * omega[1] * u[1] + IM * omega[1] * u[2] - IM * omega[1] * u[3] - omega[2] * Iges[1] * omega[1] + omega[1] * Iges[2] * omega[2]) / Iges[0];
-rhs[11][0] = (-d * kT * pow(u[0], 0.2e1) + d * kT * pow(u[2], 0.2e1) + IM * omega[0] * u[0] - IM * omega[0] * u[1] + IM * omega[0] * u[2] - IM * omega[0] * u[3] - omega[2] * Iges[0] * omega[0] + omega[0] * Iges[2] * omega[2]) / Iges[1];
-rhs[12][0] = -(kQ * pow(u[0], 0.2e1) - kQ * pow(u[1], 0.2e1) + kQ * pow(u[2], 0.2e1) - kQ * pow(u[3], 0.2e1) - omega[1] * Iges[0] * omega[0] + omega[0] * Iges[1] * omega[1]) / Iges[2];
+			rhs[0] = v[0] - 0.2e1 * v[0] * pow(q[2], 0.2e1) - 0.2e1 * v[0] * pow(q[3], 0.2e1) - 0.2e1 * v[1] * q[0] * q[3] + 0.2e1 * v[1] * q[1] * q[2] + 0.2e1 * v[2] * q[0] * q[2] + 0.2e1 * v[2] * q[1] * q[3];
+rhs[1] = 0.2e1 * v[0] * q[0] * q[3] + 0.2e1 * v[0] * q[1] * q[2] + v[1] - 0.2e1 * v[1] * pow(q[1], 0.2e1) - 0.2e1 * v[1] * pow(q[3], 0.2e1) - 0.2e1 * v[2] * q[0] * q[1] + 0.2e1 * v[2] * q[2] * q[3];
+rhs[2] = -0.2e1 * v[0] * q[0] * q[2] + 0.2e1 * v[0] * q[1] * q[3] + 0.2e1 * v[1] * q[0] * q[1] + 0.2e1 * v[1] * q[2] * q[3] + v[2] - 0.2e1 * v[2] * pow(q[1], 0.2e1) - 0.2e1 * v[2] * pow(q[2], 0.2e1);
+rhs[3] = -0.5e0 * q[1] * omega[0] - 0.5e0 * q[2] * omega[1] - 0.5e0 * q[3] * omega[2] - pow(q[0], 0.3e1) - q[0] * pow(q[1], 0.2e1) - q[0] * pow(q[2], 0.2e1) - q[0] * pow(q[3], 0.2e1) + q[0];
+rhs[4] = 0.5e0 * q[0] * omega[0] - 0.5e0 * q[3] * omega[1] + 0.5e0 * q[2] * omega[2] - pow(q[0], 0.2e1) * q[1] - pow(q[1], 0.3e1) - q[1] * pow(q[2], 0.2e1) - q[1] * pow(q[3], 0.2e1) + q[1];
+rhs[5] = 0.5e0 * q[3] * omega[0] + 0.5e0 * q[0] * omega[1] - 0.5e0 * q[1] * omega[2] - pow(q[0], 0.2e1) * q[2] - pow(q[1], 0.2e1) * q[2] - pow(q[2], 0.3e1) - q[2] * pow(q[3], 0.2e1) + q[2];
+rhs[6] = -0.5e0 * q[2] * omega[0] + 0.5e0 * q[1] * omega[1] + 0.5e0 * q[0] * omega[2] - pow(q[0], 0.2e1) * q[3] - pow(q[1], 0.2e1) * q[3] - pow(q[2], 0.2e1) * q[3] - pow(q[3], 0.3e1) + q[3];
+rhs[7] = -omega[1] * v[2] + omega[2] * v[1] + 0.2e1 * g * q[0] * q[2] - 0.2e1 * g * q[1] * q[3];
+rhs[8] = omega[0] * v[2] - omega[2] * v[0] - 0.2e1 * g * q[0] * q[1] - 0.2e1 * g * q[2] * q[3];
+rhs[9] = (kT * pow(u[0], 0.2e1) + kT * pow(u[1], 0.2e1) + kT * pow(u[2], 0.2e1) + kT * pow(u[3], 0.2e1) - m * omega[0] * v[1] + m * omega[1] * v[0] - m * g + 0.2e1 * m * g * pow(q[1], 0.2e1) + 0.2e1 * m * g * pow(q[2], 0.2e1)) / m;
+rhs[10] = -(-d * kT * pow(u[1], 0.2e1) + d * kT * pow(u[3], 0.2e1) + IM * omega[1] * u[0] - IM * omega[1] * u[1] + IM * omega[1] * u[2] - IM * omega[1] * u[3] - omega[2] * Iges[1] * omega[1] + omega[1] * Iges[2] * omega[2]) / Iges[0];
+rhs[11] = (-d * kT * pow(u[0], 0.2e1) + d * kT * pow(u[2], 0.2e1) + IM * omega[0] * u[0] - IM * omega[0] * u[1] + IM * omega[0] * u[2] - IM * omega[0] * u[3] - omega[2] * Iges[0] * omega[0] + omega[0] * Iges[2] * omega[2]) / Iges[1];
+rhs[12] = -(kQ * pow(u[0], 0.2e1) - kQ * pow(u[1], 0.2e1) + kQ * pow(u[2], 0.2e1) - kQ * pow(u[3], 0.2e1) - omega[1] * Iges[0] * omega[0] + omega[0] * Iges[1] * omega[1]) / Iges[2];
 
 		}
-
+/*
 		void jacobi(value_type* r, value_type* q, value_type* v, value_type* omega, value_type* u, value_type* pd)
 		{
 			pd[0][0] = 0;
@@ -4039,5 +4039,5 @@ pdd[12][16][15] = 0;
 pdd[12][16][16] = 2 * kQ / Iges[2];
 
 		}
-
+*/
 };
