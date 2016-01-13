@@ -51,7 +51,7 @@ rhs[11] = (-d * kT * pow(u[0], 0.2e1) + d * kT * pow(u[2], 0.2e1) + IM * omega[0
 rhs[12] = -(kQ * pow(u[0], 0.2e1) - kQ * pow(u[1], 0.2e1) + kQ * pow(u[2], 0.2e1) - kQ * pow(u[3], 0.2e1) - omega[1] * Iges[0] * omega[0] + omega[0] * Iges[1] * omega[1]) / Iges[2];
 
 		}
-/*
+
 		void jacobi(value_type* r, value_type* q, value_type* v, value_type* omega, value_type* u, value_type* pd)
 		{
 			pd[0][0] = 0;
@@ -277,7 +277,7 @@ pd[12][15] = -0.2e1 * kQ * (value_type) u[2] / Iges[2];
 pd[12][16] = 0.2e1 * kQ * (value_type) u[3] / Iges[2];
 
 		}
-
+/*
 		void hesse(value_type* r, value_type* q, value_type* v, value_type* omega, value_type* u, value_type* pdd)
 		{
 			pdd[0][0][0] = 0;
