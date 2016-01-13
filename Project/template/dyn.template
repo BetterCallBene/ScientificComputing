@@ -1,0 +1,52 @@
+
+#include <cmath.h>
+#include "config.hpp"
+#pragma once
+
+class dyn_base
+{
+//parameter (Iges = (/0.0093886,0.0093886,0.018406/))
+//            parameter (g = 9.81, m = 1.022,  kT  = 1.5e1)
+//            parameter (kQ = 3e-01, d = 0.22, IM = 4.4466e-06)
+	private:
+		value_type g;
+		value_type m;
+		value_type kT;
+		value_type kQ;
+		value_type d;
+		value_type IM;
+		value_type Iges[3];
+	public:
+		dyn_base(value_type g, value_type m, value_type kT, 
+				 value_type kQ, value_type d, value_type IM,
+				 value_type* Iges)
+		{
+			this->g = g;
+			this->m = m;
+			this->kT = kT;
+			this->kQ = kQ;
+			this->d = d;
+			this->IM = IM;
+			this->Iges[0] = Iges[0];
+			this->Iges[1] = Iges[1];
+			this->Iges[2] = Iges[2];
+		}
+
+
+	protected:
+		void func(value_type* r, value_type* q, value_type* v, value_type* omega, value_type* u, value_type* rhs)
+		{
+			${0}$
+		}
+
+		void jacobi(value_type* r, value_type* q, value_type* v, value_type* omega, value_type* u, value_type* pd)
+		{
+			${1}$
+		}
+
+		void hesse(value_type* r, value_type* q, value_type* v, value_type* omega, value_type* u, value_type* pdd)
+		{
+			${2}$
+		}
+
+};
