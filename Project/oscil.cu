@@ -37,7 +37,7 @@ using namespace boost::numeric::odeint;
 
 
 //change this to float if your device does not support double computation
-typedef double value_type;
+typedef float value_type;
 
 
 //[ thrust_phase_chain_system
