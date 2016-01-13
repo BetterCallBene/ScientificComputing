@@ -52,7 +52,7 @@ rhs[12] = -(kQ * pow(u[0], 0.2e1) - kQ * pow(u[1], 0.2e1) + kQ * pow(u[2], 0.2e1
 
 		}
 
-		void jacobi(value_type* r, value_type* q, value_type* v, value_type* omega, value_type* u, value_type* pd)
+		void jacobi(value_type* r, value_type* q, value_type* v, value_type* omega, value_type* u, value_type** pd)
 		{
 			pd[0][0] = 0;
 pd[0][1] = 0;
