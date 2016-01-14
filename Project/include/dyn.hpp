@@ -32,10 +32,16 @@ public:
 		__host__ __device__ 
 		void operator()(Tuple t)
 		{
+			const int N = 13;
+			value_type rhs[N];
+			
 			const value_type r[3] = {thrust::get<0>(t), thrust::get<1>(t), thrust::get<2>(t)};
 			const value_type q[4] = {thrust::get<3>(t), thrust::get<4>(t), thrust::get<5>(t), thrust::get<6>(t)};
 			const value_type v[3] = {thrust::get<7>(t), thrust::get<8>(t), thrust::get<9>(t)};
 			const value_type omega[3] = {thrust::get<10>(t), thrust::get<11>(t), thrust::get<12>(t)};
+
+			func(r, q, v, 
+			  omega, rhs);
 		}
 	};
 	dyn(value_type g, value_type m, value_type kT, 
