@@ -34,8 +34,8 @@ public:
 		{
 			const int N = 13;
 			value_type rhs[N];
-			value_Type pd[N][N];
-			value_type pdd[N][N][N]
+			value_type pd[N][N];
+			value_type pdd[N][N][N];
 			
 			const value_type r[3] = {thrust::get<0>(t), thrust::get<1>(t), thrust::get<2>(t)};
 			const value_type q[4] = {thrust::get<3>(t), thrust::get<4>(t), thrust::get<5>(t), thrust::get<6>(t)};
