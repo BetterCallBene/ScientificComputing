@@ -32,11 +32,11 @@ void getInitialValues(value_type* g, value_type* m, value_type* kT,
         boost::split(strs,strIges,boost::is_any_of("(,"));
 	
 	*g = string_to_double(pt.get<string>("environment.g"));
-	*m = string_to_double(pt.get<string>("enviromnent.m"));
-	*kT = string_to_double(pt.get<string>("enviromnent.kT"));
-	*kQ = string_to_double(pt.get<string>("enviromnent.kQ"));
-	*d = string_to_double(pt.get<string>("enviromnent.d"));
-	*IM = string_to_double(pt.get<string>("enviromnentIM"));
+	*m = string_to_double(pt.get<string>("environment.m"));
+	*kT = string_to_double(pt.get<string>("environment.kT"));
+	*kQ = string_to_double(pt.get<string>("environment.kQ"));
+	*d = string_to_double(pt.get<string>("environment.d"));
+	*IM = string_to_double(pt.get<string>("environment.IM"));
 
 	Iges[0] =  string_to_double(strs[1]);
 	Iges[1] =  string_to_double(strs[2]);
