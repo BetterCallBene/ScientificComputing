@@ -39,7 +39,7 @@ void getInitialValues(value_type* g, value_type* m, value_type* kT,
 	*IM = string_to_double(pt.get<string>("enviromnentIM"));
 
 	Iges[0] =  string_to_double(strs[1]);
-	Iges[1] =  string_to_double(strs[2]));
+	Iges[1] =  string_to_double(strs[2]);
 	Iges[2] =  string_to_double(strs[3].substr(0, strs[3].length()-1));
 }
 
