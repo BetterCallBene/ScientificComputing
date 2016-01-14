@@ -51,11 +51,11 @@ BOOST_AUTO_TEST_CASE(Constructor)
 	getInitialValues(&g, &m, &kT, &kQ, &d, &IM, Iges);
 
 	cout << "Gravitation  g=" << g << endl;
-	cout << "Masse 	   	  m=" << m << endl;
-	cout << "		   	 kT=" << kT <<endl;
-	cout << "			 kQ=" << kQ << endl;
-	cout << "			  d=" << d <<endl;
-	cout << "			 IM=" << IM <<endl;
-	cout << "			 Iges={" << Iges[0] << "," << Iges[1] << "," << Iges[2] <<"}" ;
+	cout << "Masse        m=" << m << endl;
+	cout << "            kT=" << kT <<endl;
+	cout << "            kQ=" << kQ << endl;
+	cout << "             d=" << d <<endl;
+	cout << "            IM=" << IM <<endl;
+	cout << "           Iges={" << Iges[0] << "," << Iges[1] << "," << Iges[2] <<"}" ;
 }
 
