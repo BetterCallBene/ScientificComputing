@@ -56,6 +56,6 @@ BOOST_AUTO_TEST_CASE(Constructor)
 	cout << "			 kQ=" << kQ << endl;
 	cout << "			  d=" << d <<endl;
 	cout << "			 IM=" << IM <<endl;
-	cout << "			 Iges={" << Iges[0] << "," << Iges[1] << "," << Iges[2] <<"}" 
+	cout << "			 Iges={" << Iges[0] << "," << Iges[1] << "," << Iges[2] <<"}" ;
 }
 
