@@ -42,10 +42,17 @@ void getInitialValues(value_type* g, value_type* m, value_type* kT,
 	Iges[1] =  string_to_double(strs[2]);
 	Iges[2] =  string_to_double(strs[3].substr(0, strs[3].length()-1));
 }
+/*
+dyn(value_type g, value_type m, value_type kT, 
+				 value_type kQ, value_type d, value_type IM,
+				 value_type* Iges, value_type* u) : m_g(g), m_m(m), m_kT(kT),
+				 m_kQ(kQ), m_d(d), m_IM(IM)
 
+*/
 BOOST_AUTO_TEST_CASE(Constructor)
 {
 	value_type g, m, kT, kQ, d, IM;
+	value_type u[4] = {1000, 1000, 1000, 1000};
 	value_type Iges[3] = {0, 0, 0};
 	g = 0; m = 0; kT = 0; kQ = 0; d = 0; IM = 0;
 	getInitialValues(&g, &m, &kT, &kQ, &d, &IM, Iges);
@@ -57,5 +64,9 @@ BOOST_AUTO_TEST_CASE(Constructor)
 	cout << "             d=" << d <<endl;
 	cout << "            IM=" << IM <<endl;
 	cout << "           Iges={" << Iges[0] << "," << Iges[1] << "," << Iges[2] <<"}" ;
+
+	dyn dynamic(g, m, kT, kQ, d,
+			IM, Iges, u
+	);
 }
 
