@@ -3,7 +3,7 @@
 #include "config.hpp"
 #pragma once
 
-class dyn_base
+class sys_base_functor
 {
 //parameter (Iges = (/0.0093886,0.0093886,0.018406/))
 //            parameter (g = 9.81, m = 1.022,  kT  = 1.5e1)

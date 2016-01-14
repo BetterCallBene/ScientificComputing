@@ -32,6 +32,7 @@ def init_and_call(ini_name):
 
 	for name, value in parser.items('replacement'):
 		reps.append((name, value))
+		print "%s = %s" %(name, value)
 
 	template_path ="%s/%s/%s" % (apps_path, props["template_dir"], props["template_name"])
 	src_path = "%s/%s/%s" %(apps_path, props["src_dir"], props["src_file"])
