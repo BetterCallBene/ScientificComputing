@@ -30,9 +30,17 @@ void getInitialValues(value_type* g, value_type* m, value_type* kT,
 	string strIges =  pt.get<string>("environment.Iges");
 	vector<string> strs;
         boost::split(strs,strIges,boost::is_any_of("(,"));
-	cout << (strs[1]) << endl;
-	cout << (strs[2]) << endl;
-	cout << (strs[3].substr(0, strs[3].length()-1)) << endl;
+	
+	*g = string_to_double(pt.get<string>("environment.g"));
+	*m = string_to_double(pt.get<string>("enviromnent.m"));
+	*kT = string_to_double(pt.get<string>("enviromnent.kT"));
+	*kQ = string_to_double(pt.get<string>("enviromnent.kQ"));
+	*d = string_to_double(pt.get<string>("enviromnent.d"));
+	*IM = string_to_double(pt.get<string>("enviromnentIM"));
+
+	Iges[0] =  string_to_double(strs[1]);
+	Iges[1] =  string_to_double(strs[2]));
+	Iges[2] =  string_to_double(strs[3].substr(0, strs[3].length()-1));
 }
 
 BOOST_AUTO_TEST_CASE(Constructor)
