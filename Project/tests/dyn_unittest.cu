@@ -32,7 +32,7 @@ void getInitialValues(value_type* g, value_type* m, value_type* kT,
         boost::split(strs,strIges,boost::is_any_of("(,"));
 	cout << (strs[1]) << endl;
 	cout << (strs[2]) << endl;
-	cout << (strs[3].substr(0, strs[3].length()-2)) << endl;
+	cout << (strs[3].substr(0, strs[3].length()-1)) << endl;
 }
 
 BOOST_AUTO_TEST_CASE(Constructor)
