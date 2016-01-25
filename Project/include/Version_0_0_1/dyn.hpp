@@ -192,7 +192,7 @@ public:
 
 	
 		}
-		__host__ __device__
+		__device__
 		void calc(const HESSEARRAY& arrHesse, const UARRAY& Msp, matrix_type &Mi)
 		{
 			
@@ -211,7 +211,7 @@ public:
 			}
 		}
 
-		__host__ __device__
+		__device__
 		void getNx1(const HESSEARRAY& arrHesse, matrix_type& Nx1, int ind)
 		{
 			const int l = ind;

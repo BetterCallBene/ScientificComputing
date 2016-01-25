@@ -50,7 +50,7 @@ class sys_base_functor
 
 
 	protected:
-		__host__ __device__
+		__device__
 		void func(const value_type* r, const value_type *q, 
 			const value_type *v, const value_type * omega, const value_type * u,
 			FUNCARRAY& rhs)
@@ -71,7 +71,7 @@ rhs[12] = -(kQ * pow(u[0], 0.2e1) - kQ * pow(u[1], 0.2e1) + kQ * pow(u[2], 0.2e1
 
 		}
 		
-		__host__ __device__
+		__device__
 		void jacobi(const value_type* r, const value_type *q, 
 			const value_type *v, const value_type * omega, const value_type *u, 
 			 JACOBIARRAY& pd)
@@ -299,7 +299,7 @@ pd[219] = -0.2e1 * kQ * (value_type) u[2] / Iges[2];
 pd[220] = 0.2e1 * kQ * (value_type) u[3] / Iges[2];
 
 		}
-		__host__ __device__
+		__device__
 		void hesse(const value_type* r, const value_type *q, 
 			const value_type *v, const value_type * omega, const value_type* u, 
 			HESSEARRAY& pdd)
