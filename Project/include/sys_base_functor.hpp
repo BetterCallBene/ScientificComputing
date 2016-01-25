@@ -18,7 +18,7 @@ const int NINITARRAY =  2*234 + 234 * 234;
 
 typedef boost::array<value_type, NINITARRAY> INITARRAY;
 typedef boost::array<value_type, nstate> FUNCARRAY;
-typedef thrust::device_vector<value_type> JACOBIARRAY;
+typedef boost::array<value_type, njacobi> JACOBIARRAY;
 typedef boost::array<value_type, nhesse> HESSEARRAY;
 
 class sys_base_functor
@@ -79,6 +79,7 @@ rhs[12] = -(kQ * pow(u[0], 0.2e1) - kQ * pow(u[1], 0.2e1) + kQ * pow(u[2], 0.2e1
 			const value_type *v, const value_type * omega, const value_type *u, 
 			 JACOBIARRAY& pd)
 		{
+			/*
 			pd[0] = 0;
 pd[1] = 0;
 pd[2] = 0;
@@ -300,7 +301,7 @@ pd[217] = -0.2e1 * kQ * (value_type) u[0] / Iges[2];
 pd[218] = 0.2e1 * kQ * (value_type) u[1] / Iges[2];
 pd[219] = -0.2e1 * kQ * (value_type) u[2] / Iges[2];
 pd[220] = 0.2e1 * kQ * (value_type) u[3] / Iges[2];
-
+*/
 		}
 		__device__
 		void hesse(const value_type* r, const value_type *q, 
