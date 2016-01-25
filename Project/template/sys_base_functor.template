@@ -1,0 +1,83 @@
+#include <boost/array.hpp>
+#include <cmath>
+#include "config.hpp"
+
+#pragma once
+const int ncontr = 4;
+const int nstate = 13;
+const int nvar = 17;
+const int nquad = 4;
+
+const int njacobi = nstate * nvar;
+const int nsubhesse = nvar * nvar;
+const int nhesse = nstate * nsubhesse;
+
+const int NINITARRAY =  2*234 + 234 * 234;
+typedef boost::array<double, NINITARRAY> INITARRAY;
+typedef boost::array<double, nstate> FUNCARRAY;
+typedef boost::array<double, njacobi> JACOBIARRAY;
+typedef boost::array<double, nhesse> HESSEARRAY;
+
+class sys_base_functor
+{
+//parameter (Iges = (/0.0093886,0.0093886,0.018406/))
+//            parameter (g = 9.81, m = 1.022,  kT  = 1.5e1)
+//            parameter (kQ = 3e-01, d = 0.22, IM = 4.4466e-06)
+	private:
+		value_type g;
+		value_type m;
+		value_type kT;
+		value_type kQ;
+		value_type d;
+		value_type IM;
+		value_type Iges[3];
+		value_type u[4];
+	public:
+		sys_base_functor(value_type g, value_type m, value_type kT, 
+				 value_type kQ, value_type d, value_type IM,
+				 value_type* Iges)
+		{
+			this->g = g;
+			this->m = m;
+			this->kT = kT;
+			this->kQ = kQ;
+			this->d = d;
+			this->IM = IM;
+			this->Iges[0] = Iges[0];
+			this->Iges[1] = Iges[1];
+			this->Iges[2] = Iges[2];
+		}
+
+
+	protected:
+		__host__ __device__
+		void func(const value_type* r, const value_type *q, 
+			const value_type *v, const value_type * omega, const value_type * u,
+			FUNCARRAY& rhs)
+		{
+			${0}$
+		}
+		
+		__host__ __device__
+		void jacobi(const value_type* r, const value_type *q, 
+			const value_type *v, const value_type * omega, const value_type *u, 
+			 JACOBIARRAY& pd)
+		{
+			${1}$
+		}
+		__host__ __device__
+		void hesse(const value_type* r, const value_type *q, 
+			const value_type *v, const value_type * omega, const value_type* u, 
+			HESSEARRAY& pdd)
+		{
+			${2}$
+		}
+
+	public:
+		void Data(INITARRAY& DMat)
+		{
+			${3}$
+		}
+		
+
+};

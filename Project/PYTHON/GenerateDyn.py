@@ -26,13 +26,14 @@ def init_and_call(ini_name):
 	tmp_files = [
 			(pathTmp % 'tmpRTOptFunction'), #0
 			(pathTmp % 'tmpRTOptJacobi'),#1
-			(pathTmp % 'tmpRTOptHesse') #2
+			(pathTmp % 'tmpRTOptHesse'), #2
+			(pathTmp % 'tmpMatlabTest') #3
 			] 	
 	reps = []
 
 	for name, value in parser.items('replacement'):
-		reps.append((name, value))
-		print "%s = %s" %(name, value)
+		reps.append([name, value])
+		#print "%s = %s" %(name, value)
 
 	template_path ="%s/%s/%s" % (apps_path, props["template_dir"], props["template_name"])
 	src_path = "%s/%s/%s" %(apps_path, props["src_dir"], props["src_file"])

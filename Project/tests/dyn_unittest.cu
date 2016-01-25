@@ -42,13 +42,7 @@ void getInitialValues(value_type* g, value_type* m, value_type* kT,
 	Iges[1] =  string_to_double(strs[2]);
 	Iges[2] =  string_to_double(strs[3].substr(0, strs[3].length()-1));
 }
-/*
-dyn(value_type g, value_type m, value_type kT, 
-				 value_type kQ, value_type d, value_type IM,
-				 value_type* Iges, value_type* u) : m_g(g), m_m(m), m_kT(kT),
-				 m_kQ(kQ), m_d(d), m_IM(IM)
 
-*/
 BOOST_AUTO_TEST_CASE(Constructor)
 {
 	value_type g, m, kT, kQ, d, IM;

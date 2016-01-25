@@ -60,8 +60,8 @@ currentdir();
 # 
 configDim := Matrix([dimX, dimDotMatrix, dimJ, dimH]);
 
-if TEST = false then C(dot, defaulttype = float, resultname = rhs, output = tmpRTOptFunction); C(J, defaulttype = float, resultname = pd, output = tmpRTOptJacobi); C(H, resultname = pdd, defaulttype = float, output = tmpRTOptHesse) else C(dot, defaulttype = float, resultname = rhs); C(J, defaulttype = float, resultname = pd); C(H, resultname = pdd, defaulttype = float) end if;
-dotMatrix;
+if TEST = false then C(dot, defaulttype = float, resultname = rhs, output = tmpRTOptFunction); C(J, defaulttype = float, resultname = pd, output = tmpRTOptJacobi); C(H, resultname = pdd, defaulttype = float, output = tmpRTOptHesse); C(vec, defaulttype = float, output = tmpMatlabTest, resultname = DMat) else  end if;
+
 
 
 
