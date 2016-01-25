@@ -58,6 +58,7 @@ class sys_base_functor
 			const value_type *v, const value_type * omega, const value_type * u,
 			FUNCARRAY& rhs)
 		{
+			/*
 			rhs[0] = v[0] - 0.2e1 * v[0] * pow(q[2], 0.2e1) - 0.2e1 * v[0] * pow(q[3], 0.2e1) - 0.2e1 * v[1] * q[0] * q[3] + 0.2e1 * v[1] * q[1] * q[2] + 0.2e1 * v[2] * q[0] * q[2] + 0.2e1 * v[2] * q[1] * q[3];
 rhs[1] = 0.2e1 * v[0] * q[0] * q[3] + 0.2e1 * v[0] * q[1] * q[2] + v[1] - 0.2e1 * v[1] * pow(q[1], 0.2e1) - 0.2e1 * v[1] * pow(q[3], 0.2e1) - 0.2e1 * v[2] * q[0] * q[1] + 0.2e1 * v[2] * q[2] * q[3];
 rhs[2] = -0.2e1 * v[0] * q[0] * q[2] + 0.2e1 * v[0] * q[1] * q[3] + 0.2e1 * v[1] * q[0] * q[1] + 0.2e1 * v[1] * q[2] * q[3] + v[2] - 0.2e1 * v[2] * pow(q[1], 0.2e1) - 0.2e1 * v[2] * pow(q[2], 0.2e1);
@@ -71,7 +72,7 @@ rhs[9] = (kT * pow(u[0], 0.2e1) + kT * pow(u[1], 0.2e1) + kT * pow(u[2], 0.2e1) 
 rhs[10] = -(-d * kT * pow(u[1], 0.2e1) + d * kT * pow(u[3], 0.2e1) + IM * omega[1] * u[0] - IM * omega[1] * u[1] + IM * omega[1] * u[2] - IM * omega[1] * u[3] - omega[2] * Iges[1] * omega[1] + omega[1] * Iges[2] * omega[2]) / Iges[0];
 rhs[11] = (-d * kT * pow(u[0], 0.2e1) + d * kT * pow(u[2], 0.2e1) + IM * omega[0] * u[0] - IM * omega[0] * u[1] + IM * omega[0] * u[2] - IM * omega[0] * u[3] - omega[2] * Iges[0] * omega[0] + omega[0] * Iges[2] * omega[2]) / Iges[1];
 rhs[12] = -(kQ * pow(u[0], 0.2e1) - kQ * pow(u[1], 0.2e1) + kQ * pow(u[2], 0.2e1) - kQ * pow(u[3], 0.2e1) - omega[1] * Iges[0] * omega[0] + omega[0] * Iges[1] * omega[1]) / Iges[2];
-
+*/
 		}
 		
 		__device__
@@ -308,6 +309,7 @@ pd[220] = 0.2e1 * kQ * (value_type) u[3] / Iges[2];
 			const value_type *v, const value_type * omega, const value_type* u, 
 			HESSEARRAY& pdd)
 		{
+			/*
 			pdd[0] = 0;
 pdd[1] = 0;
 pdd[2] = 0;
@@ -4065,10 +4067,11 @@ pdd[3753] = 0;
 pdd[3754] = 0;
 pdd[3755] = 0;
 pdd[3756] = 2 * kQ / Iges[2];
-
+*/
 		}
 
 	public:
+		
 		void Data(INITARRAY& DMat)
 		{
 			DMat[0] = 0.606162080916245238e0;
