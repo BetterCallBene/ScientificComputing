@@ -1,3 +1,4 @@
+#include <thrust/device_vector.h>
 #include <boost/array.hpp>
 #include <cmath>
 #include "config.hpp"
@@ -13,9 +14,11 @@ const int nsubhesse = nvar * nvar;
 const int nhesse = nstate * nsubhesse;
 
 const int NINITARRAY =  2*234 + 234 * 234;
+
+
 typedef boost::array<value_type, NINITARRAY> INITARRAY;
 typedef boost::array<value_type, nstate> FUNCARRAY;
-typedef boost::array<value_type, njacobi> JACOBIARRAY;
+typedef thrust::device_vector<value_type> JACOBIARRAY;
 typedef boost::array<value_type, nhesse> HESSEARRAY;
 
 class sys_base_functor
